@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Session Words</title>
+    <style>
+    	.black{
+    		color: black;
+    	}
+    	.red{
+    		color: red;
+    	}
+    	.blue{
+    		color: blue;
+    	}
+    	.pink{
+    		color: pink;
+    	}
+    	.font0{
+    		font-size: 14px;
+    	}
+    	.font1{
+    		font-size: 25px;
+    	}
+    	.textbox p{
+    		display: inline-block;
+    	}
+    </style>
+</head>
+
+<body>
+    <div>
+        <form action='/process' method="POST">
+            {%csrf_token%}
+            <h1>Add a new word</h1>
+            <input type="text" name="new_word">
+            <h3>Choose color</h3>
+            <input type="hidden" name="color" value="black">
+            <input type="radio" name="color" value="red" <p>Red</p>
+            <input type="radio" name="color" value="blue" <p>Blue</p>
+            <input type="radio" name="color" value="pink" <p>Pink</p>
+            <input type="hidden" name="font" value="0" checked <h3>Make it BIGGER!!</h3>
+            <input type="checkbox" name="font" value="1">
+            <br>
+            <br>
+            <input type="submit" name="submit" value="Add to Session">
+        </form>
+    </div>
+    <div class="textbox" style="width:600px;height:200px;overflow:auto;padding:5px;background-color:#FCFADD;color:{{color}};scrollbar-base-color:#DEBB07;" >
+    	{% for x in request.session.response reversed %}
+    	<p class="font{{x.size}} {{x.color}}">{{x.word}} added on {{x.time}}</p><br><!-- <p>{{color}}</p><p>{{size}}</p> -->
+    	{% endfor %}
+    </div> 
+	<form action='/reset' method="POST">
+		{%csrf_token%}
+	<input type="submit" name="reset" value="Clear Session">
+    </form>
+</body>
+
+</html>
